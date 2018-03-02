@@ -7,6 +7,7 @@ var h = svg.getAttribute("height");
 var w = svg.getAttribute("width");
 
 
+//delete children
 var clearing = function() {
  while (board.hasChildNodes()) {
         board.removeChild(board.childNodes[0]);
@@ -18,6 +19,7 @@ var stop_it = function() {
     clearInterval(id);
 }
 
+//rand color
 var values = '0123456789ABCDEF';
 var rand_color = function() {
     var color = '#';
@@ -26,6 +28,7 @@ var rand_color = function() {
     }
     return color;
 }
+
 
 
 var grow_n_shrink = function(e) {
@@ -46,7 +49,7 @@ var grow_n_shrink = function(e) {
 	var cic = document.createElementNS("http://www.w3.org/2000/svg",
 					   "circle");
 	cic.setAttribute("cx", w/2);
-	cic.setAttribute("cy", halfh);
+	cic.setAttribute("cy", h/2);
 	cic.setAttribute("r", radius.toString());
 	cic.setAttribute("fill", color);
 	svg.appendChild(cic);
@@ -69,28 +72,29 @@ var dvd_mimic = function(e) {
     var rect_h = 75;
     var x = Math.floor(Math.random() * (w - rect_w));
     var y = Math.floor(Math.random() * (h - rect_h));
-    var y_mode = -3;
-    var x_mode = -3;
+    var y_mode = -2;
+    var x_mode = -2;
+    var color = rand_color();
     
     var draw = function() {
 	clearing();
 	//draw rect
 	var rect = document.createElementNS("http://www.w3.org/2000/svg",
 					    "rect");
-	rect.setAttribute("cx", w/2);
-	rect.setAttribute("cy", halfh);
-	rect.setAttribute("r", radius.toString());
+	rect.setAttribute("width", rect_w);
+	rect.setAttribute("height", rect_h);
+	rect.setAttribute("x", x);
+	rect.setAttribute("y", y);
 	rect.setAttribute("fill", color);
 	svg.appendChild(rect);
-	ctx.fillRect(x, y, rect_w, rect_h);
 	//change direction
 	if (y <= 0 || y+rect_h >= h) {
 	    y_mode *= -1;
-	    ctx.fillStyle = rand_color();
+	    color = rand_color();
 	}
 	if (x <= 0 || x+rect_w >= w) {
 	    x_mode *= -1;
-	    ctx.fillStyle = rand_color();
+	    color = rand_color();
 	}
 	//move the rect
 	x += x_mode;
@@ -98,7 +102,7 @@ var dvd_mimic = function(e) {
     }
 
     //initiate loop
-    id = setInterval( draw, 12 );
+    id = setInterval( draw, 15 );
 }
 
 
